@@ -741,641 +741,534 @@
                 </div>
 
                 <div class="chat-main-area">
-                    <div class="chat-admin-header" id="chatAdminHeader">
-                        <span>اختر طالباً للبدء بالرد عليه</span>
+                    <div class="chat-main-area">
+                        <div class="chat-admin-header" id="chatAdminHeader">
+                            <span>اختر طالباً للبدء بالرد عليه</span>
+                        </div>
+                        <div class="chat-admin-body" id="chatAdminBody">
+                            <p style="text-align:center; color:#777; margin-top:50px;">اختر محادثة من القائمة الجانبية لعرض وتتبع الرسائل.</p>
+                        </div>
+                        <div class="chat-admin-footer">
+                            <input type="text" id="adminChatInput" placeholder="اكتب ردك للطالب هنا..." onkeypress="if(event.key==='Enter') sendAdminMessage()">
+                            <button class="btn btn-primary" style="border-radius:50%; width:45px; height:45px; padding:0;" onclick="sendAdminMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
                     </div>
-                    <div class="chat-admin-body" id="chatAdminBody">
-                        <p style="text-align:center; color:#777; margin-top:50px;">اختر محادثة من القائمة الجانبية لعرض وتتبع الرسائل.</p>
-                    </div>
-                    <div class="chat-admin-footer">
-                        <input type="text" id="adminChatInput" placeholder="اكتب ردك للطالب هنا..." onkeypress="if(event.key==='Enter') sendAdminMessage()">
-                        <button class="btn btn-primary" style="border-radius:50%; width:45px; height:45px; padding:0;" onclick="sendAdminMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- نافذة الحوار الثلاثية الأبعاد المخصصة 3D Dialog للأدمن -->
+        <div id="admin3DModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-icon">⚠️</div>
+                <h3 id="modalTitle">تنبيه</h3>
+                <p id="modalMessage">رسالة</p>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                    <button class="btn btn-warning" id="modalConfirmBtn" style="flex: 1;"><i class="fa-solid fa-check"></i> نعم، استمر</button>
+                    <button class="btn" id="modalCancelBtn" onclick="closeAdmin3DDialog()" style="flex: 1; background: #64748b;"><i class="fa-solid fa-xmark"></i> إلغاء</button>
                 </div>
             </div>
         </div>
 
-    </div>
+        <script>
+            // التوكن الجديد الخاص بك مشفراً بصيغة Base64 لحمايته من الفحص الآلي لـ GitHub
+            const ENCODED_TOKEN = 'Z2hwX3l4SlFoVE9GNjJzMUUydGdBVmFEdGV4dGd0ZXBKczJVTElPQg==';
 
-    <!-- نافذة الحوار الثلاثية الأبعاد المخصصة 3D Dialog للأدمن -->
-    <div id="admin3DModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-icon">⚠️</div>
-            <h3 id="modalTitle">تنبيه</h3>
-            <p id="modalMessage">رسالة</p>
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                <button class="btn btn-warning" id="modalConfirmBtn" style="flex: 1;"><i class="fa-solid fa-check"></i> نعم، استمر</button>
-                <button class="btn" id="modalCancelBtn" onclick="closeAdmin3DDialog()" style="flex: 1; background: #64748b;"><i class="fa-solid fa-xmark"></i> إلغاء</button>
-            </div>
-        </div>
-    </div>
+            // فك التشفير تلقائياً وقت تشغيل الصفحة ليعمل بنجاح مع Gist
+            const GITHUB_TOKEN = atob(ENCODED_TOKEN);
+            const GIST_ID = '250d68a9e2560e263ba7347f4a78a856';
+            const CHAT_GIST_ID = '7ad83eb4c7800e61a8c97384000bc23d';
 
-    <script>
-        // التوكن الجديد الخاص بك مشفراً بصيغة Base64 لحمايته من الفحص الآلي لـ GitHub
-const ENCODED_TOKEN = 'Z2hwX3l4SlFoVE9GNjJzMUUydGdBVmFEdGV4dGd0ZXBKczJVTElPQg==';
+            let takhsosDB = {};
+            let studentsDB = [];
+            let chatDataDB = {};
+            let currentActiveTakhsos = null;
+            let selectedChatKey = null;
+            let activeAdminChatInterval = null;
 
-// فك التشفير تلقائياً وقت تشغيل الصفحة ليعمل بنجاح مع Gist
-const GITHUB_TOKEN = atob(ENCODED_TOKEN);
-        const GIST_ID = '250d68a9e2560e263ba7347f4a78a856';
-        const CHAT_GIST_ID = '7ad83eb4c7800e61a8c97384000bc23d';
+            let adminConfirmCallback = null;
 
-        let takhsosDB = {};
-        let studentsDB = [];
-        let chatDataDB = {};
-        let currentActiveTakhsos = null;
-        let selectedChatKey = null;
-        let activeAdminChatInterval = null;
+            /* بناء دوال التحكم بصندوق الحوار 3D Dialog للأدمن بدلاً من التنبيهات التقليدية */
+            function showAdmin3DDialog(type, title, message, showCancel = false, onConfirm = null) {
+                const modal = document.getElementById('admin3DModal');
+                const iconEl = modal.querySelector('.modal-icon');
+                const titleEl = document.getElementById('modalTitle');
+                const msgEl = document.getElementById('modalMessage');
+                const confirmBtn = document.getElementById('modalConfirmBtn');
+                const cancelBtn = document.getElementById('modalCancelBtn');
 
-        let adminConfirmCallback = null;
+                titleEl.innerText = title;
+                msgEl.innerText = message;
+                adminConfirmCallback = onConfirm;
 
-        /* بناء دوال التحكم بصندوق الحوار 3D Dialog للأدمن بدلاً من التنبيهات التقليدية */
-        function showAdmin3DDialog(type, title, message, showCancel = false, onConfirm = null) {
-            const modal = document.getElementById('admin3DModal');
-            const iconEl = modal.querySelector('.modal-icon');
-            const titleEl = document.getElementById('modalTitle');
-            const msgEl = document.getElementById('modalMessage');
-            const confirmBtn = document.getElementById('modalConfirmBtn');
-            const cancelBtn = document.getElementById('modalCancelBtn');
+                if (type === 'success') {
+                    iconEl.innerText = '✅';
+                    titleEl.style.color = '#22c55e';
+                    confirmBtn.className = "btn btn-success";
+                } else if (type === 'error') {
+                    iconEl.innerText = '🚫';
+                    titleEl.style.color = '#ef4444';
+                    confirmBtn.className = "btn btn-danger";
+                } else {
+                    iconEl.innerText = '⚠️';
+                    titleEl.style.color = '#f59e0b';
+                    confirmBtn.className = "btn btn-warning";
+                }
 
-            titleEl.innerText = title;
-            msgEl.innerText = message;
-            adminConfirmCallback = onConfirm;
+                if (showCancel) {
+                    cancelBtn.style.display = 'inline-flex';
+                    confirmBtn.innerHTML = '<i class="fa-solid fa-check"></i> نعم، استمر';
+                } else {
+                    cancelBtn.style.display = 'none';
+                    confirmBtn.innerHTML = '<i class="fa-solid fa-check"></i> حسناً';
+                }
 
-            if (type === 'success') {
-                iconEl.innerText = '✅';
-                titleEl.style.color = '#22c55e';
-                confirmBtn.className = "btn btn-success";
-            } else if (type === 'error') {
-                iconEl.innerText = '🚫';
-                titleEl.style.color = '#ef4444';
-                confirmBtn.className = "btn btn-danger";
-            } else {
-                iconEl.innerText = '⚠️';
-                titleEl.style.color = '#f59e0b';
-                confirmBtn.className = "btn btn-warning";
+                confirmBtn.onclick = function () {
+                    closeAdmin3DDialog();
+                    if (adminConfirmCallback) {
+                        adminConfirmCallback();
+                        adminConfirmCallback = null;
+                    }
+                };
+
+                modal.classList.add('active');
+                setTimeout(() => {
+                    modal.querySelector('.modal-content').style.transform = 'rotateX(0deg) translateY(0)';
+                }, 10);
             }
 
-            if (showCancel) {
-                cancelBtn.style.display = 'inline-flex';
-                confirmBtn.innerHTML = '<i class="fa-solid fa-check"></i> نعم، استمر';
-            } else {
-                cancelBtn.style.display = 'none';
-                confirmBtn.innerHTML = '<i class="fa-solid fa-check"></i> حسناً';
+            function closeAdmin3DDialog() {
+                const modal = document.getElementById('admin3DModal');
+                modal.querySelector('.modal-content').style.transform = 'rotateX(20deg) translateY(-50px)';
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                }, 300);
             }
 
-            confirmBtn.onclick = function () {
-                closeAdmin3DDialog();
-                if (adminConfirmCallback) {
-                    adminConfirmCallback();
-                    adminConfirmCallback = null;
+            window.addEventListener('DOMContentLoaded', async () => {
+                await loadAllData();
+                await loadChatData();
+
+                // تحديث تلقائي للمحادثة كل 2 ثانية في شاشة الإدارة للتخفيف عن الشبكة
+                setInterval(() => {
+                    if (selectedChatKey) {
+                        loadChatDataBackground();
+                    }
+                }, 2000);
+            });
+
+            function showLoader(msg) {
+                document.getElementById('loaderText').innerText = msg;
+                document.getElementById('globalLoader').style.display = 'flex';
+            }
+            function hideLoader() {
+                document.getElementById('globalLoader').style.display = 'none';
+            }
+
+            async function loadAllData() {
+                showLoader('جاري جلب البيانات من السيرفر...');
+                try {
+                    const res = await fetch(`https://api.github.com/gists/${GIST_ID}?t=${Date.now()}`, {
+                        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                    });
+                    if (!res.ok) throw new Error("فشل الاتصال بالـ Gist");
+                    const gistData = await res.json();
+
+                    if (gistData.files['takhsos_db.json']) {
+                        try { takhsosDB = JSON.parse(gistData.files['takhsos_db.json'].content || "{}"); } catch (e) { }
+                    }
+                    if (gistData.files['students_db.json']) {
+                        try { studentsDB = JSON.parse(gistData.files['students_db.json'].content || "[]"); } catch (e) { }
+                    }
+
+                    renderTakhsosList();
+                    renderTakhsosFilter();
+                    renderStudents();
+
+                } catch (error) {
+                    showAdmin3DDialog('error', 'خطأ في جلب البيانات', 'فشل تحميل قواعد البيانات من خادم GitHub: ' + error.message);
                 }
-            };
+                hideLoader();
+            }
 
-            modal.classList.add('active');
-            setTimeout(() => {
-                modal.querySelector('.modal-content').style.transform = 'rotateX(0deg) translateY(0)';
-            }, 10);
-        }
-
-        function closeAdmin3DDialog() {
-            const modal = document.getElementById('admin3DModal');
-            modal.querySelector('.modal-content').style.transform = 'rotateX(20deg) translateY(-50px)';
-            setTimeout(() => {
-                modal.classList.remove('active');
-            }, 300);
-        }
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            await loadAllData();
-            await loadChatData();
-
-            // تحديث تلقائي للمحادثة كل 2 ثانية في شاشة الإدارة للتخفيف عن الشبكة
-            setInterval(() => {
-                if (selectedChatKey) {
-                    loadChatDataBackground();
+            async function saveGist(filename, dataObj, successMsg) {
+                showLoader('جاري حفظ البيانات على السيرفر...');
+                try {
+                    const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `token ${GITHUB_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            files: { [filename]: { content: JSON.stringify(dataObj, null, 4) } }
+                        })
+                    });
+                    if (res.ok) {
+                        showAdmin3DDialog('success', 'تم بنجاح', successMsg);
+                    } else { throw new Error("فشل الحفظ"); }
+                } catch (error) {
+                    showAdmin3DDialog('error', 'خطأ في الحفظ', 'تعذر تحديث البيانات على خادم GitHub، يرجى التحقق من الشبكة.');
                 }
-            }, 2000);
-        });
+                hideLoader();
+            }
 
-        function showLoader(msg) {
-            document.getElementById('loaderText').innerText = msg;
-            document.getElementById('globalLoader').style.display = 'flex';
-        }
-        function hideLoader() {
-            document.getElementById('globalLoader').style.display = 'none';
-        }
+            function switchTab(tabId, element) {
+                document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
 
-        async function loadAllData() {
-            showLoader('جاري جلب البيانات من السيرفر...');
-            try {
-                const res = await fetch(`https://api.github.com/gists/${GIST_ID}?t=${Date.now()}`, {
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-                });
-                if (!res.ok) throw new Error("فشل الاتصال بالـ Gist");
-                const gistData = await res.json();
+                document.getElementById(tabId).classList.add('active');
+                element.classList.add('active');
+            }
 
-                if (gistData.files['takhsos_db.json']) {
-                    try { takhsosDB = JSON.parse(gistData.files['takhsos_db.json'].content || "{}"); } catch (e) { }
+            function renderTakhsosList() {
+                const container = document.getElementById('takhsosList');
+                container.innerHTML = '';
+
+                const namesMap = {
+                    "physics": "الفيزياء (physics)",
+                    "chemistry": "الكيمياء (chemistry)",
+                    "mathematics": "الرياضيات (mathematics)",
+                    "computer_science": "علوم الحاسب (computer_science)",
+                    "biology": "علم الأحياء (biology)"
+                };
+
+                for (let tKey in takhsosDB) {
+                    const btn = document.createElement('div');
+                    btn.className = `takhsos-btn ${currentActiveTakhsos === tKey ? 'selected' : ''}`;
+                    btn.innerHTML = `<i class="fa-solid fa-layer-group"></i> <br><br> ${namesMap[tKey] || tKey}`;
+                    btn.onclick = () => openSubjectsPanel(tKey);
+                    container.appendChild(btn);
                 }
-                if (gistData.files['students_db.json']) {
-                    try { studentsDB = JSON.parse(gistData.files['students_db.json'].content || "[]"); } catch (e) { }
-                }
+            }
 
+            async function addTakhsos() {
+                const val = document.getElementById('newTakhsosName').value.trim();
+                if (!val) { showAdmin3DDialog('warning', 'تنبيه', 'أدخل اسم التخصص المراد إضافته!'); return; }
+                if (takhsosDB[val]) { showAdmin3DDialog('warning', 'تنبيه', 'هذا التخصص الدراسي مضاف وموجود بالفعل!'); return; }
+
+                takhsosDB[val] = [];
+                document.getElementById('newTakhsosName').value = '';
+
+                await saveGist('takhsos_db.json', takhsosDB, 'تم إضافة التخصص بنجاح');
                 renderTakhsosList();
                 renderTakhsosFilter();
-                renderStudents();
-
-            } catch (error) {
-                showAdmin3DDialog('error', 'خطأ في جلب البيانات', 'فشل تحميل قواعد البيانات من خادم GitHub: ' + error.message);
-            }
-            hideLoader();
-        }
-
-        async function saveGist(filename, dataObj, successMsg) {
-            showLoader('جاري حفظ البيانات على السيرفر...');
-            try {
-                const res = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        files: { [filename]: { content: JSON.stringify(dataObj, null, 4) } }
-                    })
-                });
-                if (res.ok) {
-                    showAdmin3DDialog('success', 'تم بنجاح', successMsg);
-                } else { throw new Error("فشل الحفظ"); }
-            } catch (error) {
-                showAdmin3DDialog('error', 'خطأ في الحفظ', 'تعذر تحديث البيانات على خادم GitHub، يرجى التحقق من الشبكة.');
-            }
-            hideLoader();
-        }
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-
-            document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
-        }
-
-        function renderTakhsosList() {
-            const container = document.getElementById('takhsosList');
-            container.innerHTML = '';
-
-            const namesMap = {
-                "physics": "الفيزياء (physics)",
-                "chemistry": "الكيمياء (chemistry)",
-                "mathematics": "الرياضيات (mathematics)",
-                "computer_science": "علوم الحاسب (computer_science)",
-                "biology": "علم الأحياء (biology)"
-            };
-
-            for (let tKey in takhsosDB) {
-                const btn = document.createElement('div');
-                btn.className = `takhsos-btn ${currentActiveTakhsos === tKey ? 'selected' : ''}`;
-                btn.innerHTML = `<i class="fa-solid fa-layer-group"></i> <br><br> ${namesMap[tKey] || tKey}`;
-                btn.onclick = () => openSubjectsPanel(tKey);
-                container.appendChild(btn);
-            }
-        }
-
-        async function addTakhsos() {
-            const val = document.getElementById('newTakhsosName').value.trim();
-            if (!val) { showAdmin3DDialog('warning', 'تنبيه', 'أدخل اسم التخصص المراد إضافته!'); return; }
-            if (takhsosDB[val]) { showAdmin3DDialog('warning', 'تنبيه', 'هذا التخصص الدراسي مضاف وموجود بالفعل!'); return; }
-
-            takhsosDB[val] = [];
-            document.getElementById('newTakhsosName').value = '';
-
-            await saveGist('takhsos_db.json', takhsosDB, 'تم إضافة التخصص بنجاح');
-            renderTakhsosList();
-            renderTakhsosFilter();
-        }
-
-        function openSubjectsPanel(takhsosName) {
-            currentActiveTakhsos = takhsosName;
-            renderTakhsosList();
-            document.getElementById('subjectsPanel').style.display = 'block';
-            document.getElementById('currentTakhsosTitle').innerText = `إدارة مواد تخصص: ${takhsosName}`;
-            renderSubjectsList();
-        }
-
-        function renderSubjectsList() {
-            const container = document.getElementById('subjectsListContainer');
-            container.innerHTML = '';
-
-            const subjects = takhsosDB[currentActiveTakhsos] || [];
-            if (subjects.length === 0) {
-                container.innerHTML = '<p style="color:#aaa; text-align:center; padding: 20px;">لا توجد مواد مضافة لهذا التخصص حتى الآن.</p>';
-                return;
             }
 
-            subjects.forEach((sub, index) => {
-                const subName = typeof sub === 'string' ? sub : (sub.text || sub.name || sub.value);
-                const subDay = sub.day || 'غير محدد';
-                const subTime = sub.time || 'غير محدد';
-
-                const div = document.createElement('div');
-                div.className = 'subject-item';
-                div.innerHTML = `
-                        <div style="font-weight:700; color:#0f172a; font-size: 16px;">${subName}</div>
-                        <div class="subject-info">
-                            <span><i class="fa-regular fa-calendar"></i> ${subDay}</span>
-                            <span><i class="fa-regular fa-clock"></i> ${subTime}</span>
-                        </div>
-                        <button class="btn btn-danger" onclick="deleteSubject(${index})"><i class="fa-solid fa-trash"></i> حذف</button>
-                    `;
-                container.appendChild(div);
-            });
-        }
-
-        async function addSubject() {
-            if (!currentActiveTakhsos) return;
-
-            const name = document.getElementById('newSubName').value.trim();
-            const day = document.getElementById('newSubDay').value;
-            const from = document.getElementById('newSubFrom').value.trim();
-            const to = document.getElementById('newSubTo').value.trim();
-
-            if (!name) { showAdmin3DDialog('warning', 'تنبيه', 'يرجى كتابة اسم المادة الدراسية أولاً!'); return; }
-
-            let timeFormatted = 'غير محدد';
-            if (from && to) {
-                timeFormatted = `من ${from} إلى ${to}`;
-            } else if (from) {
-                timeFormatted = `الساعة ${from}`;
-            }
-
-            const newSubject = {
-                text: name,
-                value: name,
-                day: day || 'غير محدد',
-                time: timeFormatted
-            };
-
-            if (!Array.isArray(takhsosDB[currentActiveTakhsos])) {
-                takhsosDB[currentActiveTakhsos] = [];
-            }
-
-            takhsosDB[currentActiveTakhsos].push(newSubject);
-
-            document.getElementById('newSubName').value = '';
-            document.getElementById('newSubDay').value = '';
-            document.getElementById('newSubFrom').value = '';
-            document.getElementById('newSubTo').value = '';
-
-            await saveGist('takhsos_db.json', takhsosDB, 'تم إضافة المادة بنجاح');
-            renderSubjectsList();
-        }
-
-        async function deleteSubject(index) {
-            showAdmin3DDialog('warning', 'تأكيد الحذف ⚠️', 'هل أنت متأكد من حذف هذه المادة الدراسية من قاعدة البيانات؟', true, async function () {
-                takhsosDB[currentActiveTakhsos].splice(index, 1);
-                await saveGist('takhsos_db.json', takhsosDB, 'تم حذف المادة');
+            function openSubjectsPanel(takhsosName) {
+                currentActiveTakhsos = takhsosName;
+                renderTakhsosList();
+                document.getElementById('subjectsPanel').style.display = 'block';
+                document.getElementById('currentTakhsosTitle').innerText = `إدارة مواد تخصص: ${takhsosName}`;
                 renderSubjectsList();
-            });
-        }
-
-        function renderTakhsosFilter() {
-            const select = document.getElementById('filterTakhsos');
-            select.innerHTML = '<option value="all">الكل (جميع التخصصات)</option>';
-            for (let tKey in takhsosDB) {
-                select.innerHTML += `<option value="${tKey}">${tKey}</option>`;
-            }
-        }
-
-        /* عرض سجلات الطلاب مع تمكين الاختيار المباشر والاعتماد الفوري مادة بمادة */
-        function renderStudents() {
-            const container = document.getElementById('studentsCardsContainer');
-            container.innerHTML = '';
-
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filterTakhsos = document.getElementById('filterTakhsos').value;
-
-            let filteredStudents = studentsDB.filter(student => {
-                const matchSearch = (student.name && student.name.toLowerCase().includes(searchTerm)) ||
-                    (student.extraID && student.extraID.toLowerCase().includes(searchTerm)) ||
-                    (student.natID && student.natID.includes(searchTerm));
-
-                const matchTakhsos = (filterTakhsos === 'all') || (student.takhsos === filterTakhsos);
-
-                return matchSearch && matchTakhsos;
-            });
-
-            if (filteredStudents.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 30px; font-weight:bold;">لا يوجد طلاب مطابقين للبحث.</p>';
-                return;
             }
 
-            filteredStudents.forEach((student, idx) => {
-                const originalIndex = studentsDB.findIndex(s => s === student);
+            function renderSubjectsList() {
+                const container = document.getElementById('subjectsListContainer');
+                container.innerHTML = '';
 
-                let statusClass = 'pending';
-                let statusText = 'قيد المراجعة ⏳';
-                if (student.status === 'accepted') { statusClass = 'accepted'; statusText = 'مقبول ✅'; }
-                if (student.status === 'rejected') { statusClass = 'rejected'; statusText = 'مرفوض ❌'; }
-
-                const subsList = student.subjects ? student.subjects.split(' ، ') : [];
-                const subStatuses = student.subjectStatuses || {};
-
-                const card = document.createElement('div');
-                card.className = 'student-card';
-                card.innerHTML = `
-                        <div class="student-header">
-                            <div>
-                                <div class="student-title-area">
-                                    <span class="student-title">${student.name || 'بدون اسم'}</span>
-                                    <!-- إظهار الحالة مباشرة بجوار اسم الطالب -->
-                                    <span class="status-badge ${statusClass}">${statusText}</span>
-                                </div>
-                                <div class="student-sub-info">
-                                    <span><i class="fa-solid fa-id-card"></i> ID: <b>${student.extraID || student.natID || '-'}</b></span>
-                                    <span><i class="fa-solid fa-graduation-cap"></i> التخصص: <b>${student.takhsos || '-'}</b></span>
-                                    <span><i class="fa-solid fa-clock"></i> التسجيل: ${student.timestamp || '-'}</span>
-                                </div>
-                            </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <button class="btn btn-success" onclick="updateAllSubjectsStatus(${originalIndex}, 'accepted')"><i class="fa-solid fa-check-double"></i> قبول الكل</button>
-                                <button class="btn btn-danger" onclick="updateAllSubjectsStatus(${originalIndex}, 'rejected')"><i class="fa-solid fa-xmark"></i> رفض الكل</button>
-                                <button class="btn btn-primary" onclick="saveStudentSubjectApprovals(${originalIndex})"><i class="fa-solid fa-floppy-disk"></i> حفظ الاعتمادات</button>
-                                <!-- زر لإتاحة التسجيل مجدداً مع تفعيل المتغير newlogin المكتشف برمجياً للطالب -->
-                                <button class="btn btn-warning" onclick="allowStudentReloginAndReset(${originalIndex})" title="سماح للطالب بالدخول وإعادة التسجيل"><i class="fa-solid fa-rotate-left"></i> إتاحة التسجيل مجدداً</button>
-                            </div>
-                        </div>
-
-                        <div class="subjects-big-box">
-                            <h4><i class="fa-solid fa-book"></i> المواد المسجلة وحالة قبولها التفصيلية:</h4>
-                            <div>
-                                ${subsList.length > 0 ? subsList.map((s, sIdx) => {
-                    const currentSubStatus = subStatuses[s] || 'pending';
-
-                    return `
-                                        <div class="subject-approval-row">
-                                            <span class="sub-name">${s}</span>
-                                            <div class="subject-actions">
-                                                <!-- الاختيار مباشر وفعال دائماً دون حجب أو حظر الاختيارات -->
-                                                <label class="choice-label acc-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="accepted" ${currentSubStatus === 'accepted' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'accepted')">
-                                                    <i class="fa-solid fa-check"></i> قبول
-                                                </label>
-                                                <label class="choice-label rej-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="rejected" ${currentSubStatus === 'rejected' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'rejected')">
-                                                    <i class="fa-solid fa-xmark"></i> رفض
-                                                </label>
-                                                <label class="choice-label pen-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="pending" ${currentSubStatus === 'pending' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'pending')">
-                                                    <i class="fa-solid fa-clock"></i> انتظار
-                                                </label>
-                                            </div>
-                                        </div>
-                                    `;
-                }).join('') : '<span style="color:#aaa;">لم يقم بتحديد أي مادة بعد.</span>'}
-                            </div>
-                        </div>
-                    `;
-
-                container.appendChild(card);
-
-                if (idx < filteredStudents.length - 1) {
-                    const hr = document.createElement('hr');
-                    hr.className = 'student-divider';
-                    container.appendChild(hr);
-                }
-            });
-        }
-
-        function updateLocalSubjectStatus(studentIndex, subjectName, newStatus) {
-            if (!studentsDB[studentIndex].subjectStatuses) {
-                studentsDB[studentIndex].subjectStatuses = {};
-            }
-            studentsDB[studentIndex].subjectStatuses[subjectName] = newStatus;
-        }
-
-        async function saveStudentSubjectApprovals(studentIndex) {
-            const stObj = studentsDB[studentIndex];
-
-            // حساب الحالة العامة للطالب بناءً على مراجعة المواد
-            const statuses = Object.values(stObj.subjectStatuses || {});
-            if (statuses.length > 0) {
-                if (statuses.every(s => s === 'accepted')) {
-                    stObj.status = 'accepted';
-                } else if (statuses.every(s => s === 'rejected')) {
-                    stObj.status = 'rejected';
-                } else {
-                    stObj.status = 'accepted'; // في حال القبول الجزئي
-                }
-            }
-
-            await saveGist('students_db.json', studentsDB, `تم حفظ وتثبيت اعتمادات المواد للطالب: ${stObj.name}`);
-            renderStudents();
-        }
-
-        /* قبول أو الرفض لكل المواد دفعة واحدة ومباشرة مع حفظها وتحديث الـ Radio buttons تلقائياً */
-        async function updateAllSubjectsStatus(studentIndex, newStatus) {
-            const stObj = studentsDB[studentIndex];
-            stObj.status = newStatus;
-
-            const subsList = stObj.subjects ? stObj.subjects.split(' ، ') : [];
-            if (!stObj.subjectStatuses) stObj.subjectStatuses = {};
-
-            subsList.forEach(s => {
-                stObj.subjectStatuses[s] = newStatus;
-            });
-
-            let msg = newStatus === 'accepted' ? 'تم قبول الطالب وجميع مواده' : 'تم رفض جميع مواد الطالب';
-            await saveGist('students_db.json', studentsDB, msg);
-            renderStudents();
-        }
-
-        /* تعديل إتاحة الدخول: تفريغ المواد وتعيين المتغير الجديد newlogin ليصبح true ليتسنى للطالب الدخول مجدداً والتسجيل من الصفر عبر الـ 3D Dialog الجديد */
-        async function allowStudentReloginAndReset(studentIndex) {
-            const st = studentsDB[studentIndex];
-            const warningMsg = `تحذير ⚠️\nإتاحة التسجيل مجدداً للطالب (${st.name}) ستقوم بحذف جميع المقررات وحالات القبول المسجلة حالياً ليعود لصفحة الدخول للتسجيل من الصفر.\n\nهل تود الاستمرار؟`;
-
-            // استدعاء الـ 3D Confirm الجديد بدلاً من نافذة المتصفح الافتراضية
-            showAdmin3DDialog("warning", "إتاحة التسجيل مجدداً للطلاب", warningMsg, true, async function () {
-                // إفراغ المقررات والحالات وتعيين المتغيرات المطلوبة
-                st.subjects = "";
-                st.subjectStatuses = {};
-                st.status = "pending";
-                st.allowRelogin = true;
-                st.newlogin = true; // تعيين المتغير المقروء بصفحة الطالب
-
-                await saveGist('students_db.json', studentsDB, `تم إفراغ بيانات وحذف مواد الطالب (${st.name}) وإتاحة الدخول مجدداً له بنجاح.`);
-                renderStudents();
-            });
-        }
-
-        /* ================= إدارة قسم الدردشة للأدمن ================= */
-        /* تعديل وحل: ربط الهيدر والتوكن الأمني لحل مشكلة 403 Forbidden والتنزيل المستمر */
-        async function loadChatData() {
-            try {
-                const res = await fetch(`https://api.github.com/gists/${CHAT_GIST_ID}?t=${Date.now()}`, {
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-                });
-                if (res.status === 403) {
-                    showAdmin3DDialog('error', 'خطأ 403 Forbidden', 'تم حظر الطلب من سيرفر GitHub بسبب نفاد الحد المسموح أو تعطل الـ Token. يرجى توليد توكن جديد.', false);
+                const subjects = takhsosDB[currentActiveTakhsos] || [];
+                if (subjects.length === 0) {
+                    container.innerHTML = '<p style="color:#aaa; text-align:center; padding: 20px;">لا توجد مواد مضافة لهذا التخصص حتى الآن.</p>';
                     return;
                 }
-                if (res.ok) {
-                    const json = await res.json();
-                    if (json.files['chat_login.json']) {
-                        chatDataDB = JSON.parse(json.files['chat_login.json'].content || "{}");
-                        renderChatStudentsList();
+
+                subjects.forEach((sub, index) => {
+                    const subName = typeof sub === 'string' ? sub : (sub.text || sub.name || sub.value);
+                    const subDay = sub.day || 'غير محدد';
+                    const subTime = sub.time || 'غير محدد';
+
+                    const div = document.createElement('div');
+                    div.className = 'subject-item';
+                    div.innerHTML = `
+                            <div style="font-weight:700; color:#0f172a; font-size: 16px;">${subName}</div>
+                            <div class="subject-info">
+                                <span><i class="fa-regular fa-calendar"></i> ${subDay}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${subTime}</span>
+                            </div>
+                            <button class="btn btn-danger" onclick="deleteSubject(${index})"><i class="fa-solid fa-trash"></i> حذف</button>
+                        `;
+                    container.appendChild(div);
+                });
+            }
+
+            async function addSubject() {
+                if (!currentActiveTakhsos) return;
+
+                const name = document.getElementById('newSubName').value.trim();
+                const day = document.getElementById('newSubDay').value;
+                const from = document.getElementById('newSubFrom').value.trim();
+                const to = document.getElementById('newSubTo').value.trim();
+
+                if (!name) { showAdmin3DDialog('warning', 'تنبيه', 'يرجى كتابة اسم المادة الدراسية أولاً!'); return; }
+
+                let timeFormatted = 'غير محدد';
+                if (from && to) {
+                    timeFormatted = `من ${from} إلى ${to}`;
+                } else if (from) {
+                    timeFormatted = `الساعة ${from}`;
+                }
+
+                const newSubject = {
+                    text: name,
+                    value: name,
+                    day: day || 'غير محدد',
+                    time: timeFormatted
+                };
+
+                if (!Array.isArray(takhsosDB[currentActiveTakhsos])) {
+                    takhsosDB[currentActiveTakhsos] = [];
+                }
+
+                takhsosDB[currentActiveTakhsos].push(newSubject);
+
+                document.getElementById('newSubName').value = '';
+                document.getElementById('newSubDay').value = '';
+                document.getElementById('newSubFrom').value = '';
+                document.getElementById('newSubTo').value = '';
+
+                await saveGist('takhsos_db.json', takhsosDB, 'تم إضافة المادة بنجاح');
+                renderSubjectsList();
+            }
+
+            async function deleteSubject(index) {
+                showAdmin3DDialog('warning', 'تأكيد الحذف ⚠️', 'هل أنت متأكد من حذف هذه المادة الدراسية من قاعدة البيانات؟', true, async function () {
+                    takhsosDB[currentActiveTakhsos].splice(index, 1);
+                    await saveGist('takhsos_db.json', takhsosDB, 'تم حذف المادة');
+                    renderSubjectsList();
+                });
+            }
+
+            function renderTakhsosFilter() {
+                const select = document.getElementById('filterTakhsos');
+                select.innerHTML = '<option value="all">الكل (جميع التخصصات)</option>';
+                for (let tKey in takhsosDB) {
+                    select.innerHTML += `<option value="${tKey}">${tKey}</option>`;
+                }
+            }
+
+            /* عرض سجلات الطلاب مع تمكين الاختيار المباشر والاعتماد الفوري مادة بمادة */
+            function renderStudents() {
+                const container = document.getElementById('studentsCardsContainer');
+                container.innerHTML = '';
+
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const filterTakhsos = document.getElementById('filterTakhsos').value;
+
+                let filteredStudents = studentsDB.filter(student => {
+                    const matchSearch = (student.name && student.name.toLowerCase().includes(searchTerm)) ||
+                        (student.extraID && student.extraID.toLowerCase().includes(searchTerm)) ||
+                        (student.natID && student.natID.includes(searchTerm));
+
+                    const matchTakhsos = (filterTakhsos === 'all') || (student.takhsos === filterTakhsos);
+
+                    return matchSearch && matchTakhsos;
+                });
+
+                if (filteredStudents.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 30px; font-weight:bold;">لا يوجد طلاب مطابقين للبحث.</p>';
+                    return;
+                }
+
+                filteredStudents.forEach((student, idx) => {
+                    const originalIndex = studentsDB.findIndex(s => s === student);
+
+                    let statusClass = 'pending';
+                    let statusText = 'قيد المراجعة ⏳';
+                    if (student.status === 'accepted') { statusClass = 'accepted'; statusText = 'مقبول ✅'; }
+                    if (student.status === 'rejected') { statusClass = 'rejected'; statusText = 'مرفوض ❌'; }
+
+                    const subsList = student.subjects ? student.subjects.split(' ، ') : [];
+                    const subStatuses = student.subjectStatuses || {};
+
+                    const card = document.createElement('div');
+                    card.className = 'student-card';
+                    card.innerHTML = `
+                            <div class="student-header">
+                                <div>
+                                    <div class="student-title-area">
+                                        <span class="student-title">${student.name || 'بدون اسم'}</span>
+                                        <!-- إظهار الحالة مباشرة بجوار اسم الطالب -->
+                                        <span class="status-badge ${statusClass}">${statusText}</span>
+                                    </div>
+                                    <div class="student-sub-info">
+                                        <span><i class="fa-solid fa-id-card"></i> ID: <b>${student.extraID || student.natID || '-'}</b></span>
+                                        <span><i class="fa-solid fa-graduation-cap"></i> التخصص: <b>${student.takhsos || '-'}</b></span>
+                                        <span><i class="fa-solid fa-clock"></i> التسجيل: ${student.timestamp || '-'}</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <button class="btn btn-success" onclick="updateAllSubjectsStatus(${originalIndex}, 'accepted')"><i class="fa-solid fa-check-double"></i> قبول الكل</button>
+                                    <button class="btn btn-danger" onclick="updateAllSubjectsStatus(${originalIndex}, 'rejected')"><i class="fa-solid fa-xmark"></i> رفض الكل</button>
+                                    <button class="btn btn-primary" onclick="saveStudentSubjectApprovals(${originalIndex})"><i class="fa-solid fa-floppy-disk"></i> حفظ الاعتمادات</button>
+                                    <!-- زر لإتاحة التسجيل مجدداً مع تفعيل المتغير newlogin المكتشف برمجياً للطالب -->
+                                    <button class="btn btn-warning" onclick="allowStudentReloginAndReset(${originalIndex})" title="سماح للطالب بالدخول وإعادة التسجيل"><i class="fa-solid fa-rotate-left"></i> إتاحة التسجيل مجدداً</button>
+                                </div>
+                            </div>
+
+                            <div class="subjects-big-box">
+                                <h4><i class="fa-solid fa-book"></i> المواد المسجلة وحالة قبولها التفصيلية:</h4>
+                                <div>
+                                    ${subsList.length > 0 ? subsList.map((s, sIdx) => {
+                        const currentSubStatus = subStatuses[s] || 'pending';
+
+                        return `
+                                            <div class="subject-approval-row">
+                                                <span class="sub-name">${s}</span>
+                                                <div class="subject-actions">
+                                                    <!-- الاختيار مباشر وفعال دائماً دون حجب أو حظر الاختيارات -->
+                                                    <label class="choice-label acc-btn">
+                                                        <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="accepted" ${currentSubStatus === 'accepted' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'accepted')">
+                                                        <i class="fa-solid fa-check"></i> قبول
+                                                    </label>
+                                                    <label class="choice-label rej-btn">
+                                                        <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="rejected" ${currentSubStatus === 'rejected' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'rejected')">
+                                                        <i class="fa-solid fa-xmark"></i> رفض
+                                                    </label>
+                                                    <label class="choice-label pen-btn">
+                                                        <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="pending" ${currentSubStatus === 'pending' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'pending')">
+                                                        <i class="fa-solid fa-clock"></i> انتظار
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        `;
+                    }).join('') : '<span style="color:#aaa;">لم يقم بتحديد أي مادة بعد.</span>'}
+                                </div>
+                            </div>
+                        `;
+
+                    container.appendChild(card);
+
+                    if (idx < filteredStudents.length - 1) {
+                        const hr = document.createElement('hr');
+                        hr.className = 'student-divider';
+                        container.appendChild(hr);
+                    }
+                });
+            }
+
+            function updateLocalSubjectStatus(studentIndex, subjectName, newStatus) {
+                if (!studentsDB[studentIndex].subjectStatuses) {
+                    studentsDB[studentIndex].subjectStatuses = {};
+                }
+                studentsDB[studentIndex].subjectStatuses[subjectName] = newStatus;
+            }
+
+            async function saveStudentSubjectApprovals(studentIndex) {
+                const stObj = studentsDB[studentIndex];
+
+                // حساب الحالة العامة للطالب بناءً على مراجعة المواد
+                const statuses = Object.values(stObj.subjectStatuses || {});
+                if (statuses.length > 0) {
+                    if (statuses.every(s => s === 'accepted')) {
+                        stObj.status = 'accepted';
+                    } else if (statuses.every(s => s === 'rejected')) {
+                        stObj.status = 'rejected';
+                    } else {
+                        stObj.status = 'accepted'; // في حال القبول الجزئي
                     }
                 }
-            } catch (e) { console.error("Admin Chat fetch error", e); }
-        }
 
-        // تحديث صامت في الخلفية للتحديث اللحظي للرسائل مع إرفاق التوكن لتجنب الـ 403
-        async function loadChatDataBackground() {
-            try {
-                const res = await fetch(`https://api.github.com/gists/${CHAT_GIST_ID}?t=${Date.now()}`, {
-                    headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                await saveGist('students_db.json', studentsDB, `تم حفظ وتثبيت اعتمادات المواد للطالب: ${stObj.name}`);
+                renderStudents();
+            }
+
+            /* قبول أو الرفض لكل المواد دفعة واحدة ومباشرة مع حفظها وتحديث الـ Radio buttons تلقائياً */
+            async function updateAllSubjectsStatus(studentIndex, newStatus) {
+                const stObj = studentsDB[studentIndex];
+                stObj.status = newStatus;
+
+                const subsList = stObj.subjects ? stObj.subjects.split(' ، ') : [];
+                if (!stObj.subjectStatuses) stObj.subjectStatuses = {};
+
+                subsList.forEach(s => {
+                    stObj.subjectStatuses[s] = newStatus;
                 });
-                if (res.ok) {
-                    const json = await res.json();
-                    if (json.files['chat_login.json']) {
-                        chatDataDB = JSON.parse(json.files['chat_login.json'].content || "{}");
-                        if (selectedChatKey) {
-                            renderAdminChatMessages();
+
+                let msg = newStatus === 'accepted' ? 'تم قبول الطالب وجميع مواده' : 'تم رفض جميع مواد الطالب';
+                await saveGist('students_db.json', studentsDB, msg);
+                renderStudents();
+            }
+
+            /* تعديل إتاحة الدخول: تفريغ المواد وتعيين المتغير الجديد newlogin ليصبح true ليتسنى للطالب الدخول مجدداً والتسجيل من الصفر عبر الـ 3D Dialog الجديد */
+            async function allowStudentReloginAndReset(studentIndex) {
+                const st = studentsDB[studentIndex];
+                const warningMsg = `تحذير ⚠️\nإتاحة التسجيل مجدداً للطالب (${st.name}) ستقوم بحذف جميع المقررات وحالات القبول المسجلة حالياً ليعود لصفحة الدخول للتسجيل من الصفر.\n\nهل تود الاستمرار؟`;
+
+                // استدعاء الـ 3D Confirm الجديد بدلاً من نافذة المتصفح الافتراضية
+                showAdmin3DDialog("warning", "إتاحة التسجيل مجدداً للطلاب", warningMsg, true, async function () {
+                    // إفراغ المقررات والحالات وتعيين المتغيرات المطلوبة
+                    st.subjects = "";
+                    st.subjectStatuses = {};
+                    st.status = "pending";
+                    st.allowRelogin = true;
+                    st.newlogin = true; // تعيين المتغير المقروء بصفحة الطالب
+
+                    await saveGist('students_db.json', studentsDB, `تم إفراغ بيانات وحذف مواد الطالب (${st.name}) وإتاحة الدخول مجدداً له بنجاح.`);
+                    renderStudents();
+                });
+            }
+
+            /* ================= إدارة قسم الدردشة للأدمن ================= */
+            /* تعديل وحل: ربط الهيدر والتوكن الأمني لحل مشكلة 403 Forbidden والتنزيل المستمر */
+            async function loadChatData() {
+                try {
+                    const res = await fetch(`https://api.github.com/gists/${CHAT_GIST_ID}?t=${Date.now()}`, {
+                        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                    });
+                    if (res.status === 403) {
+                        showAdmin3DDialog('error', 'خطأ 403 Forbidden', 'تم حظر الطلب من سيرفر GitHub بسبب نفاد الحد المسموح أو تعطل الـ Token. يرجى توليد توكن جديد.', false);
+                        return;
+                    }
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json.files['chat_login.json']) {
+                            chatDataDB = JSON.parse(json.files['chat_login.json'].content || "{}");
+                            renderChatStudentsList();
                         }
                     }
+                } catch (e) { console.error("Admin Chat fetch error", e); }
+            }
+
+            // تحديث صامت في الخلفية للتحديث اللحظي للرسائل مع إرفاق التوكن لتجنب الـ 403
+            async function loadChatDataBackground() {
+                try {
+                    const res = await fetch(`https://api.github.com/gists/${CHAT_GIST_ID}?t=${Date.now()}`, {
+                        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+                    });
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json.files['chat_login.json']) {
+                            chatDataDB = JSON.parse(json.files['chat_login.json'].content || "{}");
+                            if (selectedChatKey) {
+                                renderAdminChatMessages();
+                            }
+                        }
+                    }
+                } catch (e) { }
+            }
+
+            function renderChatStudentsList(filteredDB = chatDataDB) {
+                const listEl = document.getElementById('chatStudentsList');
+                listEl.innerHTML = '';
+
+                const keys = Object.keys(filteredDB);
+                if (keys.length === 0) {
+                    listEl.innerHTML = '<p style="padding:20px; text-align:center; color:#888;">لا توجد محادثات مطابقة لخيارات البحث.</p>';
+                    return;
                 }
-            } catch (e) { }
-        }
 
-        function renderChatStudentsList(filteredDB = chatDataDB) {
-            const listEl = document.getElementById('chatStudentsList');
-            listEl.innerHTML = '';
+                keys.forEach(key => {
+                    const item = filteredDB[key];
+                    const lastMsg = item.messages && item.messages.length > 0 ? item.messages[item.messages.length - 1].text : 'لا توجد رسائل';
 
-            const keys = Object.keys(filteredDB);
-            if (keys.length === 0) {
-                listEl.innerHTML = '<p style="padding:20px; text-align:center; color:#888;">لا توجد محادثات مطابقة لخيارات البحث.</p>';
-                return;
-            }
-
-            keys.forEach(key => {
-                const item = filteredDB[key];
-                const lastMsg = item.messages && item.messages.length > 0 ? item.messages[item.messages.length - 1].text : 'لا توجد رسائل';
-
-                const div = document.createElement('div');
-                div.className = `chat-student-item ${selectedChatKey === key ? 'active' : ''}`;
-                div.onclick = () => openStudentChat(key);
-                div.innerHTML = `
-                        <div class="st-name">${item.studentName || 'طالب غير معرف'}</div>
-                        <div class="st-id" style="margin-top:2px;">ID: <b>${item.extraID || key}</b></div>
-                        <div class="st-id" style="font-size:10px;">الهوية: ${item.natID || '-'}</div>
-                        <div style="font-size:12px; color:#666; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</div>
-                    `;
-                listEl.appendChild(div);
-            });
-        }
-
-        /* فلترة وقدرة محرك البحث على كشف أي حقل بيانات مدخل */
-        function filterChatsList() {
-            const query = document.getElementById('chatSearchInput').value.toLowerCase().trim();
-            if (!query) {
-                renderChatStudentsList(chatDataDB);
-                return;
-            }
-
-            let filtered = {};
-            for (let key in chatDataDB) {
-                const item = chatDataDB[key];
-                const matchesName = item.studentName && item.studentName.toLowerCase().includes(query);
-                const matchesEmail = item.email && item.email.toLowerCase().includes(query);
-                const matchesExtraID = item.extraID && item.extraID.toLowerCase().includes(query);
-                const matchesNatID = item.natID && item.natID.includes(query);
-
-                if (matchesName || matchesEmail || matchesExtraID || matchesNatID) {
-                    filtered[key] = item;
-                }
-            }
-            renderChatStudentsList(filtered);
-        }
-
-        function openStudentChat(chatKey) {
-            selectedChatKey = chatKey;
-
-            // إعادة الفلترة أو الحفاظ عليها نشطة
-            const query = document.getElementById('chatSearchInput').value.trim();
-            if (query) filterChatsList(); else renderChatStudentsList();
-
-            const stObj = chatDataDB[chatKey];
-            document.getElementById('chatAdminHeader').innerHTML = `
-                    <span><i class="fa-solid fa-user-graduate"></i> ${stObj.studentName} | ID: ${stObj.extraID} | إيميل: ${stObj.email || '-'}</span>
-                `;
-
-            renderAdminChatMessages();
-        }
-
-        function renderAdminChatMessages() {
-            const body = document.getElementById('chatAdminBody');
-            const isAtBottom = body.scrollHeight - body.clientHeight <= body.scrollTop + 60;
-
-            body.innerHTML = '';
-
-            if (!selectedChatKey || !chatDataDB[selectedChatKey]) return;
-
-            const msgs = chatDataDB[selectedChatKey].messages || [];
-            msgs.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = `msg-bubble-admin ${msg.sender === 'student' ? 'from-student' : 'from-admin'}`;
-                div.innerHTML = `
-                        <div>${msg.text}</div>
-                        <span class="msg-time-tag">${msg.time}</span>
-                    `;
-                body.appendChild(div);
-            });
-
-            if (isAtBottom) {
-                body.scrollTop = body.scrollHeight;
-            }
-        }
-
-        async function sendAdminMessage() {
-            if (!selectedChatKey) { showAdmin3DDialog('warning', 'تنبيه', 'اختر طالباً أولاً من القائمة الجانبية للدردشة!'); return; }
-
-            const input = document.getElementById('adminChatInput');
-            const text = input.value.trim();
-            if (!text) return;
-
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-
-            chatDataDB[selectedChatKey].messages.push({
-                sender: 'admin',
-                text: text,
-                time: timeStr
-            });
-
-            input.value = '';
-            renderAdminChatMessages();
-
-            try {
-                const res = await fetch(`https://api.github.com/gists/${CHAT_GIST_ID}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        files: { ['chat_login.json']: { content: JSON.stringify(chatDataDB, null, 4) } }
-                    })
-                });
-                if (res.status === 403) {
-                    showAdmin3DDialog('error', 'خطأ 403 Forbidden', 'تعذر إرسال الرسالة ونفد حد الاستدعاء للتوكن. يرجى تحديث التوكن لـ GitHub.', false);
-                }
-            } catch (e) {
-                console.error("Failed to save admin chat message", e);
-            }
-        }
-    </script>
-</body>
-</html>
+                    const div = document.createElement('div');
+                    div.className = `chat-student-item ${selectedChatKey === key ? 'active' : ''}`;
+                    div.onclick = () => openStudentChat(key);
+                    div.innerHTML = `
+                            <div class="st-name">${item.studentName || 'طالب غير معرف'}</div>
+                            <div class="st-id" style="margin-top:2px;">ID: <b>${item.extraID || key}</b></div>
+                            <div class="st-id" style="font-size:10px;">الهوية: ${item.natID || '-'}</div>
+                            <div style="font-size:12px; color:#666; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</
