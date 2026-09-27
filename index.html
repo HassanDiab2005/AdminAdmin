@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم المسؤول | البوابة الأكاديمية</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
@@ -32,13 +32,13 @@
             padding: 30px 20px;
         }
 
-            .sidebar h2 {
-                color: #1e3c72;
-                font-size: 22px;
-                margin-bottom: 35px;
-                text-align: center;
-                font-weight: 800;
-            }
+        .sidebar h2 {
+            color: #1e3c72;
+            font-size: 22px;
+            margin-bottom: 35px;
+            text-align: center;
+            font-weight: 800;
+        }
 
         .menu-item {
             padding: 15px 18px;
@@ -54,10 +54,10 @@
             font-size: 15px;
         }
 
-            .menu-item:hover, .menu-item.active {
-                background: linear-gradient(90deg, #1e3c72, #2a5298);
-                color: #fff;
-            }
+        .menu-item:hover, .menu-item.active {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: #fff;
+        }
 
         .main-content {
             flex: 1;
@@ -72,11 +72,11 @@
             margin-bottom: 25px;
         }
 
-            .header h1 {
-                font-size: 26px;
-                color: #0f172a;
-                font-weight: 800;
-            }
+        .header h1 {
+            font-size: 26px;
+            color: #0f172a;
+            font-weight: 800;
+        }
 
         .card {
             background: #fff;
@@ -91,20 +91,13 @@
             animation: fadeIn 0.4s;
         }
 
-            .page-section.active {
-                display: block;
-            }
+        .page-section.active {
+            display: block;
+        }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
@@ -122,26 +115,14 @@
             font-size: 14px;
         }
 
-        .btn-primary {
-            background: #2563eb;
-        }
-
-            .btn-primary:hover {
-                background: #1d4ed8;
-            }
-
-        .btn-danger {
-            background: #ef4444;
-        }
-
-        .btn-success {
-            background: #22c55e;
-        }
-
-        .btn-warning {
-            background: #f59e0b;
-            color: #fff;
-        }
+        .btn-primary { background: #2563eb; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-success { background: #22c55e; }
+        .btn-warning { background: #f59e0b; color: #fff; }
+        .btn-whatsapp { background: #075e54; }
+        .btn-whatsapp:hover { background: #128c7e; }
 
         input, select {
             padding: 12px 15px;
@@ -155,10 +136,10 @@
             transition: 0.3s;
         }
 
-            input:focus, select:focus {
-                border-color: #2563eb;
-                background: #fff;
-            }
+        input:focus, select:focus {
+            border-color: #2563eb;
+            background: #fff;
+        }
 
         .takhsos-grid {
             display: grid;
@@ -179,12 +160,12 @@
             transition: 0.3s;
         }
 
-            .takhsos-btn:hover, .takhsos-btn.selected {
-                background: #2563eb;
-                color: #fff;
-                border-color: #2563eb;
-                transform: translateY(-3px);
-            }
+        .takhsos-btn:hover, .takhsos-btn.selected {
+            background: #2563eb;
+            color: #fff;
+            border-color: #2563eb;
+            transform: translateY(-3px);
+        }
 
         .subjects-panel {
             background: #f8fafc;
@@ -205,48 +186,97 @@
             align-items: center;
             margin-bottom: 12px;
             border: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .subject-info {
             display: flex;
-            gap: 15px;
-            color: #475569;
-            font-size: 14px;
-        }
-
-            .subject-info span {
-                background: #eff6ff;
-                color: #2563eb;
-                padding: 6px 14px;
-                border-radius: 8px;
-                font-weight: 700;
-            }
-
-        .add-subject-form {
-            display: grid;
-            grid-template-columns: 2fr 1.2fr 1fr 1fr 1fr;
             gap: 10px;
-            margin-bottom: 20px;
+            color: #475569;
+            font-size: 13.5px;
+            flex-wrap: wrap;
+        }
+
+        .subject-info span {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            display: inline-flex;
             align-items: center;
+            gap: 5px;
         }
 
-            .add-subject-form input, .add-subject-form select {
-                margin-bottom: 0;
-            }
+        .subject-info .hours-pill {
+            background: #fef3c7;
+            color: #b45309;
+        }
 
-        .filters {
+        /* تصميم قسم إضافة وتعديل مادة */
+        .easy-add-box {
+            background: #fff;
+            border: 1.5px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .easy-add-box.editing-mode {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .add-subject-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .schedule-adder-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr auto;
+            gap: 8px;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .schedule-adder-row input, .schedule-adder-row select {
+            margin-bottom: 0;
+            padding: 9px 12px;
+            font-size: 13.5px;
+        }
+
+        .added-schedules-list {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
-            .filters input {
-                flex: 2;
-            }
+        .schedule-tag {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #c7d2fe;
+        }
 
-            .filters select {
-                flex: 1;
-            }
+        .schedule-tag i {
+            cursor: pointer;
+            color: #ef4444;
+        }
 
         .student-card {
             background: #fff;
@@ -297,12 +327,12 @@
             margin-top: 15px;
         }
 
-            .subjects-big-box h4 {
-                font-size: 16px;
-                color: #1e3c72;
-                margin-bottom: 12px;
-                font-weight: 800;
-            }
+        .subjects-big-box h4 {
+            font-size: 16px;
+            color: #1e3c72;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
 
         .subject-approval-row {
             display: flex;
@@ -315,16 +345,13 @@
             margin-bottom: 10px;
         }
 
-            .subject-approval-row .sub-name {
-                font-weight: 800;
-                color: #1e293b;
-                font-size: 16px;
-            }
-
-        .subject-actions {
-            display: flex;
-            gap: 8px;
+        .subject-approval-row .sub-name {
+            font-weight: 800;
+            color: #1e293b;
+            font-size: 16px;
         }
+
+        .subject-actions { display: flex; gap: 8px; }
 
         .choice-label {
             display: flex;
@@ -340,59 +367,15 @@
             transition: 0.2s;
         }
 
-            .choice-label input {
-                display: none;
-            }
+        .choice-label input { display: none; }
+        .choice-label:has(input:checked).acc-btn { background: #dcfce7; color: #15803d; border-color: #22c55e; border-style: solid; }
+        .choice-label:has(input:checked).rej-btn { background: #fee2e2; color: #b91c1c; border-color: #ef4444; border-style: solid; }
+        .choice-label:has(input:checked).pen-btn { background: #fef3c7; color: #d97706; border-color: #f59e0b; border-style: solid; }
 
-            .choice-label:has(input:checked).acc-btn {
-                background: #dcfce7;
-                color: #15803d;
-                border-color: #22c55e;
-                border-style: solid;
-            }
-
-            .choice-label:has(input:checked).rej-btn {
-                background: #fee2e2;
-                color: #b91c1c;
-                border-color: #ef4444;
-                border-style: solid;
-            }
-
-            .choice-label:has(input:checked).pen-btn {
-                background: #fef3c7;
-                color: #d97706;
-                border-color: #f59e0b;
-                border-style: solid;
-            }
-
-        .student-divider {
-            height: 2px;
-            background: linear-gradient(90deg, #2563eb, transparent);
-            margin: 30px 0;
-            border: none;
-        }
-
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 800;
-        }
-
-            .status-badge.pending {
-                background: #fef3c7;
-                color: #d97706;
-            }
-
-            .status-badge.accepted {
-                background: #dcfce7;
-                color: #15803d;
-            }
-
-            .status-badge.rejected {
-                background: #fee2e2;
-                color: #b91c1c;
-            }
+        .status-badge { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 800; }
+        .status-badge.pending { background: #fef3c7; color: #d97706; }
+        .status-badge.accepted { background: #dcfce7; color: #15803d; }
+        .status-badge.rejected { background: #fee2e2; color: #b91c1c; }
 
         .solidarity-badge {
             display: inline-flex;
@@ -409,9 +392,10 @@
             margin-right: 15px;
         }
 
+        /* تصميم الشات */
         .chat-app-container {
             display: flex;
-            height: 600px;
+            height: 620px;
             background: #fff;
             border-radius: 20px;
             border: 1px solid #cbd5e1;
@@ -420,7 +404,7 @@
         }
 
         .chat-students-list {
-            width: 320px;
+            width: 340px;
             border-left: 1px solid #e2e8f0;
             background: #f8fafc;
             overflow-y: auto;
@@ -434,229 +418,76 @@
             border-bottom: 1px solid #e2e8f0;
         }
 
-            .chat-search-box input {
-                margin-bottom: 0;
-                padding: 10px;
-                font-size: 13px;
-            }
-
-        .chat-list-wrapper {
-            flex: 1;
-            overflow-y: auto;
-        }
+        .chat-search-box input { margin-bottom: 0; padding: 10px; font-size: 13px; }
+        .chat-list-wrapper { flex: 1; overflow-y: auto; }
 
         .chat-student-item {
-            padding: 15px 18px;
+            padding: 14px 16px;
             border-bottom: 1px solid #edf2f7;
             cursor: pointer;
             transition: 0.2s;
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-            .chat-student-item:hover, .chat-student-item.active {
-                background: #e2e8f0;
-            }
-
-            .chat-student-item .st-name {
-                font-weight: 800;
-                font-size: 15px;
-                color: #0f172a;
-            }
-
-            .chat-student-item .st-id {
-                font-size: 11px;
-                color: #64748b;
-            }
-
-        .chat-main-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: #efeae2;
-        }
-
-        .chat-admin-header {
-            background: #075e54;
-            color: #fff;
-            padding: 15px 20px;
-            font-weight: 800;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            position: relative;
         }
 
-        .chat-admin-body {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .chat-student-item:hover, .chat-student-item.active { background: #e2e8f0; }
 
-        .msg-bubble-admin {
-            max-width: 70%;
-            padding: 10px 16px;
+        .chat-st-info { flex: 1; overflow: hidden; }
+        .chat-student-item .st-name { font-weight: 800; font-size: 14.5px; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-student-item .st-id { font-size: 11.5px; color: #64748b; margin-top: 2px; }
+
+        /* شارة النقطة الحمراء للرسائل غير المردود عليها فقط */
+        .chat-red-badge {
+            background: #ef4444;
+            color: #fff;
+            font-size: 11.5px;
+            font-weight: 900;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
             border-radius: 12px;
-            font-size: 14px;
-            line-height: 1.4;
-            word-break: break-word;
-        }
-
-            .msg-bubble-admin.from-student {
-                background: #ffffff;
-                align-self: flex-start;
-                color: #0f172a;
-            }
-
-            .msg-bubble-admin.from-admin {
-                background: #dcf8c6;
-                align-self: flex-end;
-                color: #0f172a;
-            }
-
-        .msg-time-tag {
-            font-size: 10px;
-            color: #64748b;
-            display: block;
-            margin-top: 4px;
-            text-align: left;
-        }
-
-        .chat-admin-footer {
-            padding: 12px 20px;
-            background: #f0f0f0;
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-            .chat-admin-footer input {
-                flex: 1;
-                margin-bottom: 0;
-                background: #fff;
-                border-radius: 25px;
-                padding: 12px 20px;
-            }
-
-        /* نافذة الحوار ثلاثية الأبعاد */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
+            display: inline-flex;
             align-items: center;
-            z-index: 12000;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-            perspective: 1200px;
-        }
-
-            .modal-overlay.active {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-        .modal-content {
-            background: #fff;
-            border-radius: 24px;
-            padding: 35px;
-            width: 90%;
-            max-width: 440px;
-            text-align: center;
-            transform: rotateX(20deg) translateY(-50px);
-            transition: 0.4s;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: rotateX(0deg) translateY(0);
-        }
-
-        .modal-icon {
-            font-size: 55px;
-            margin-bottom: 15px;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 15px;
-            font-size: 22px;
-            font-weight: 800;
-            color: #f59e0b;
-        }
-
-        .modal-content p {
-            margin-bottom: 25px;
-            color: #475569;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        /* شاشة قفل الدخول السري للأدمن */
-        .admin-lock-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f172a;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 20000;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
+            animation: pulseDot 2s infinite;
         }
 
-        .admin-lock-card {
-            background: #fff;
-            padding: 40px;
-            border-radius: 24px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
 
-            .admin-lock-card h2 {
-                color: #1e3c72;
-                margin-bottom: 10px;
-                font-weight: 800;
-            }
+        .chat-main-area { flex: 1; display: flex; flex-direction: column; background: #efeae2; }
+        .chat-admin-header { background: #075e54; color: #fff; padding: 14px 20px; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .chat-admin-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
 
-        #globalLoader {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.85);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 30000;
-            flex-direction: column;
-        }
+        .msg-bubble-admin { max-width: 70%; padding: 10px 16px; border-radius: 12px; font-size: 14px; line-height: 1.4; word-break: break-word; }
+        .msg-bubble-admin.from-student { background: #ffffff; align-self: flex-start; color: #0f172a; }
+        .msg-bubble-admin.from-admin { background: #dcf8c6; align-self: flex-end; color: #0f172a; }
+        .msg-time-tag { font-size: 10px; color: #64748b; display: block; margin-top: 4px; text-align: left; }
 
-            #globalLoader i {
-                font-size: 40px;
-                color: #2563eb;
-                margin-bottom: 15px;
-                animation: spin 1s linear infinite;
-            }
+        .chat-admin-footer { padding: 12px 20px; background: #f0f0f0; display: flex; gap: 10px; border-top: 1px solid #e2e8f0; }
+        .chat-admin-footer input { flex: 1; margin-bottom: 0; background: #fff; border-radius: 25px; padding: 12px 20px; }
 
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+        /* نافذة الحوار 3D */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 12000; opacity: 0; pointer-events: none; transition: 0.3s; perspective: 1200px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { background: #fff; border-radius: 24px; padding: 35px; width: 90%; max-width: 440px; text-align: center; transform: rotateX(20deg) translateY(-50px); transition: 0.4s; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .modal-overlay.active .modal-content { transform: rotateX(0deg) translateY(0); }
+        .modal-icon { font-size: 55px; margin-bottom: 15px; }
+
+        /* شاشة قفل الأدمن */
+        .admin-lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; justify-content: center; align-items: center; z-index: 20000; }
+        .admin-lock-card { background: #fff; padding: 40px; border-radius: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .admin-lock-card h2 { color: #1e3c72; margin-bottom: 10px; font-weight: 800; }
+
+        #globalLoader { position: fixed; top: 0; right: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); display: none; justify-content: center; align-items: center; z-index: 30000; flex-direction: column; }
+        #globalLoader i { font-size: 40px; color: #2563eb; margin-bottom: 15px; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -703,7 +534,7 @@
 
     <div class="main-content">
 
-        <!-- قسم التخصصات والمواد -->
+        <!-- ======================= 1. قسم التخصصات والمواد ======================= -->
         <div id="takhsosTab" class="page-section active">
             <div class="header">
                 <h1>إدارة التخصصات والمقررات الدراسية</h1>
@@ -711,7 +542,7 @@
             </div>
 
             <div class="card" style="display: flex; gap: 10px; align-items: center;">
-                <input type="text" id="newTakhsosName" placeholder="أدخل اسم التخصص باللغة العربية أو الإنجليزية (مثال: physics أو الكيمياء)..." style="margin:0;">
+                <input type="text" id="newTakhsosName" placeholder="أدخل اسم التخصص (مثال: كيمياء حيوية أو physics)..." style="margin:0;">
                 <button class="btn btn-primary" onclick="addTakhsos()"><i class="fa-solid fa-plus"></i> إضافة التخصص</button>
             </div>
 
@@ -720,25 +551,50 @@
                 <div class="takhsos-grid" id="takhsosList"></div>
 
                 <div class="subjects-panel" id="subjectsPanel">
-                    <h3 id="currentTakhsosTitle" style="color:#2563eb; margin-bottom:20px;">مواد التخصص: </h3>
+                    <h3 id="currentTakhsosTitle" style="color:#2563eb; margin-bottom:15px;">مواد التخصص: </h3>
 
-                    <div class="add-subject-form">
-                        <input type="text" id="newSubName" placeholder="اسم المادة (مثال: فيزياء 1)" required>
+                    <!-- نموذج إضافة وتعديل مادة مع دعم الساعات والمواعيد المتعددة -->
+                    <div class="easy-add-box" id="subjectFormBox">
+                        <h4 id="subjectFormTitle" style="color:#1e3c72; margin-bottom:12px; font-weight:800;">
+                            <i class="fa-solid fa-plus-circle"></i> إضافة مقرر دراسي جديد:
+                        </h4>
+                        
+                        <div class="add-subject-grid">
+                            <input type="text" id="newSubName" placeholder="اسم المقرر (مثال: كيمياء عضوية 1)" style="margin:0;">
+                            <input type="number" id="newSubHours" placeholder="الساعات المعتمدة (مثال: 3)" value="3" min="1" max="6" style="margin:0;">
+                        </div>
 
-                        <select id="newSubDay">
-                            <option value="">-- اختر اليوم --</option>
-                            <option value="الأحد">الأحد</option>
-                            <option value="الإثنين">الإثنين</option>
-                            <option value="الثلاثاء">الثلاثاء</option>
-                            <option value="الأربعاء">الأربعاء</option>
-                            <option value="الخميس">الخميس</option>
-                            <option value="السبت">السبت</option>
-                        </select>
+                        <!-- إضافة مواعيد متعددة للمحاضرات والسكاشن -->
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:12px;">
+                            <span style="font-size:13.5px; font-weight:700; color:#475569; display:block; margin-bottom:8px;">
+                                <i class="fa-regular fa-clock"></i> مواعيد المحاضرات للمادة (يمكنك إضافة أكثر من موعد):
+                            </span>
+                            
+                            <div class="schedule-adder-row">
+                                <select id="subSlotDay">
+                                    <option value="السبت">السبت</option>
+                                    <option value="الأحد">الأحد</option>
+                                    <option value="الإثنين">الإثنين</option>
+                                    <option value="الثلاثاء">الثلاثاء</option>
+                                    <option value="الأربعاء">الأربعاء</option>
+                                    <option value="الخميس">الخميس</option>
+                                </select>
+                                <input type="text" id="subSlotFrom" placeholder="من الساعة (مثال: 1 م)">
+                                <input type="text" id="subSlotTo" placeholder="إلى الساعة (مثال: 6 م)">
+                                <button type="button" class="btn btn-warning" onclick="addScheduleSlot()"><i class="fa-solid fa-plus"></i> أضف الموعد</button>
+                            </div>
 
-                        <input type="text" id="newSubFrom" placeholder="من الساعة (مثال: 8 ص)">
-                        <input type="text" id="newSubTo" placeholder="إلى الساعة (مثال: 10 ص)">
+                            <div class="added-schedules-list" id="addedSchedulesContainer"></div>
+                        </div>
 
-                        <button class="btn btn-primary" onclick="addSubject()"><i class="fa-solid fa-plus"></i> إضافة المادة</button>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-primary" id="saveSubjectMainBtn" style="flex:1; height:45px;" onclick="saveCompleteSubject()">
+                                <i class="fa-solid fa-floppy-disk"></i> حفظ المقرر الدراسي بالجدول
+                            </button>
+                            <button class="btn btn-danger" id="cancelEditSubjectBtn" style="display:none; height:45px;" onclick="cancelEditSubject()">
+                                <i class="fa-solid fa-xmark"></i> إلغاء التعديل
+                            </button>
+                        </div>
                     </div>
 
                     <div id="subjectsListContainer"></div>
@@ -746,7 +602,7 @@
             </div>
         </div>
 
-        <!-- قسم الطلاب -->
+        <!-- ======================= 2. قسم الطلاب ======================= -->
         <div id="studentsTab" class="page-section">
             <div class="header">
                 <h1>سجلات الطلاب وتفاصيل الاعتمادات</h1>
@@ -765,7 +621,7 @@
             </div>
         </div>
 
-        <!-- قسم محادثات الطلاب المباشرة -->
+        <!-- ======================= 3. قسم محادثات الطلاب المباشرة ======================= -->
         <div id="chatTab" class="page-section">
             <div class="header">
                 <h1><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> محادثات الطلاب المباشرة</h1>
@@ -798,7 +654,7 @@
 
     </div>
 
-    <!-- نافذة الحوار ثلاثية الأبعاد المخصصة للأدمن -->
+    <!-- نافذة الحوار 3D -->
     <div id="admin3DModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">⚠️</div>
@@ -812,7 +668,6 @@
     </div>
 
     <script>
-        // رابط الـ Cloudflare Worker الوسيط الآمن
         const WORKER_API_URL = 'https://lingering-morning-1c34.hstudy3rd.workers.dev';
 
         let takhsosDB = {};
@@ -821,6 +676,8 @@
         let currentActiveTakhsos = null;
         let selectedChatKey = null;
         let adminConfirmCallback = null;
+        let tempScheduleSlots = [];
+        let editingSubjectIndex = null; // لتحديد ما إذا كنا في وضع تعديل المادة
 
         function getAdminKey() {
             return sessionStorage.getItem('adminKey') || '';
@@ -930,10 +787,10 @@
             }
 
             setInterval(() => {
-                if (selectedChatKey && getAdminKey()) {
+                if (getAdminKey()) {
                     loadChatDataBackground();
                 }
-            }, 2000);
+            }, 3000);
         });
 
         function showLoader(msg) {
@@ -961,6 +818,7 @@
                     renderTakhsosList();
                     renderTakhsosFilter();
                     renderStudents();
+                    await loadChatData();
                 } else {
                     throw new Error("فشل التحقق من الصلاحيات");
                 }
@@ -1001,9 +859,10 @@
             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
 
             document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
+            if (element) element.classList.add('active');
         }
 
+        /* ================= 1. إدارة التخصصات والمواد مع دعم التعديل ================= */
         function renderTakhsosList() {
             const container = document.getElementById('takhsosList');
             container.innerHTML = '';
@@ -1043,7 +902,91 @@
             renderTakhsosList();
             document.getElementById('subjectsPanel').style.display = 'block';
             document.getElementById('currentTakhsosTitle').innerText = `إدارة مواد تخصص: ${takhsosName}`;
+            cancelEditSubject();
             renderSubjectsList();
+        }
+
+        function addScheduleSlot() {
+            const day = document.getElementById('subSlotDay').value;
+            const from = document.getElementById('subSlotFrom').value.trim();
+            const to = document.getElementById('subSlotTo').value.trim();
+
+            if (!from || !to) {
+                showAdmin3DDialog('warning', 'بيانات ناقصة', 'يرجى كتابة وقت البداية ووقت النهاية للمحاضرة (مثال: من 1 م إلى 6 م)!');
+                return;
+            }
+
+            tempScheduleSlots.push({
+                day: day,
+                time: `من ${from} إلى ${to}`
+            });
+
+            document.getElementById('subSlotFrom').value = '';
+            document.getElementById('subSlotTo').value = '';
+            renderTempSchedules();
+        }
+
+        function removeScheduleSlot(index) {
+            tempScheduleSlots.splice(index, 1);
+            renderTempSchedules();
+        }
+
+        function renderTempSchedules() {
+            const container = document.getElementById('addedSchedulesContainer');
+            container.innerHTML = '';
+            if (tempScheduleSlots.length === 0) {
+                container.innerHTML = '<span style="font-size:12px; color:#888;">لم تقم بإضافة مواعيد بعد (أدخل اليوم والساعة ثم اضغط أضف الموعد).</span>';
+                return;
+            }
+
+            tempScheduleSlots.forEach((slot, idx) => {
+                const tag = document.createElement('span');
+                tag.className = 'schedule-tag';
+                tag.innerHTML = `<span>📅 ${slot.day} (${slot.time})</span> <i class="fa-solid fa-xmark" onclick="removeScheduleSlot(${idx})" title="حذف هذا الموعد"></i>`;
+                container.appendChild(tag);
+            });
+        }
+
+        // 🌟 تفعيل وضع تعديل المادة بالكامل 🌟
+        function editSubject(index) {
+            editingSubjectIndex = index;
+            const sub = takhsosDB[currentActiveTakhsos][index];
+
+            document.getElementById('newSubName').value = sub.name || sub.text || sub.value || '';
+            document.getElementById('newSubHours').value = sub.hours || 3;
+
+            // استرجاع المواعيد السابقة للمادة
+            if (sub.schedules && Array.isArray(sub.schedules) && sub.schedules.length > 0) {
+                tempScheduleSlots = JSON.parse(JSON.stringify(sub.schedules));
+            } else if (sub.day || sub.time) {
+                tempScheduleSlots = [{ day: sub.day || 'غير محدد', time: sub.time || 'غير محدد' }];
+            } else {
+                tempScheduleSlots = [];
+            }
+            renderTempSchedules();
+
+            // تحويل الواجهة لوضع التعديل
+            const box = document.getElementById('subjectFormBox');
+            box.classList.add('editing-mode');
+            document.getElementById('subjectFormTitle').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> تعديل المقرر الدراسي: <span style="color:#d97706;">${sub.name || sub.text}</span>`;
+            document.getElementById('saveSubjectMainBtn').innerHTML = `<i class="fa-solid fa-check"></i> حفظ تعديلات المقرر`;
+            document.getElementById('cancelEditSubjectBtn').style.display = 'inline-flex';
+
+            box.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelEditSubject() {
+            editingSubjectIndex = null;
+            document.getElementById('newSubName').value = '';
+            document.getElementById('newSubHours').value = '3';
+            tempScheduleSlots = [];
+            renderTempSchedules();
+
+            const box = document.getElementById('subjectFormBox');
+            box.classList.remove('editing-mode');
+            document.getElementById('subjectFormTitle').innerHTML = `<i class="fa-solid fa-plus-circle"></i> إضافة مقرر دراسي جديد:`;
+            document.getElementById('saveSubjectMainBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> حفظ المقرر الدراسي بالجدول`;
+            document.getElementById('cancelEditSubjectBtn').style.display = 'none';
         }
 
         function renderSubjectsList() {
@@ -1058,66 +1001,85 @@
 
             subjects.forEach((sub, index) => {
                 const subName = typeof sub === 'string' ? sub : (sub.text || sub.name || sub.value);
-                const subDay = sub.day || 'غير محدد';
-                const subTime = sub.time || 'غير محدد';
+                const hoursNum = sub.hours ? parseInt(sub.hours) : 3;
+
+                let timesPills = '';
+                if (sub.schedules && Array.isArray(sub.schedules) && sub.schedules.length > 0) {
+                    timesPills = sub.schedules.map(s => `<span><i class="fa-regular fa-calendar"></i> ${s.day} (${s.time})</span>`).join(' ');
+                } else {
+                    timesPills = `<span><i class="fa-regular fa-calendar"></i> ${sub.day || 'غير محدد'} (${sub.time || 'غير محدد'})</span>`;
+                }
 
                 const div = document.createElement('div');
                 div.className = 'subject-item';
                 div.innerHTML = `
-                        <div style="font-weight:700; color:#0f172a; font-size: 16px;">${subName}</div>
+                    <div>
+                        <div style="font-weight:800; color:#0f172a; font-size: 16px; margin-bottom: 6px;">${subName}</div>
                         <div class="subject-info">
-                            <span><i class="fa-regular fa-calendar"></i> ${subDay}</span>
-                            <span><i class="fa-regular fa-clock"></i> ${subTime}</span>
+                            <span class="hours-pill"><i class="fa-solid fa-hourglass-half"></i> ${hoursNum} ساعات معتمدة</span>
+                            ${timesPills}
                         </div>
-                        <button class="btn btn-danger" onclick="deleteSubject(${index})"><i class="fa-solid fa-trash"></i> حذف</button>
-                    `;
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <button class="btn btn-warning" onclick="editSubject(${index})" title="تعديل اسم أو مواعيد أو ساعات المقرر"><i class="fa-solid fa-pen-to-square"></i> تعديل</button>
+                        <button class="btn btn-danger" onclick="deleteSubject(${index})" title="حذف المقرر"><i class="fa-solid fa-trash"></i> حذف</button>
+                    </div>
+                `;
                 container.appendChild(div);
             });
         }
 
-        async function addSubject() {
+        async function saveCompleteSubject() {
             if (!currentActiveTakhsos) return;
 
             const name = document.getElementById('newSubName').value.trim();
-            const day = document.getElementById('newSubDay').value;
-            const from = document.getElementById('newSubFrom').value.trim();
-            const to = document.getElementById('newSubTo').value.trim();
+            const hours = parseInt(document.getElementById('newSubHours').value) || 3;
 
-            if (!name) { showAdmin3DDialog('warning', 'تنبيه', 'يرجى كتابة اسم المادة الدراسية أولاً!'); return; }
-
-            let timeFormatted = 'غير محدد';
-            if (from && to) {
-                timeFormatted = `من ${from} إلى ${to}`;
-            } else if (from) {
-                timeFormatted = `الساعة ${from}`;
+            if (!name) { 
+                showAdmin3DDialog('warning', 'تنبيه', 'يرجى كتابة اسم المقرر الدراسي أولاً!'); 
+                return; 
             }
 
-            const newSubject = {
+            if (tempScheduleSlots.length === 0) {
+                showAdmin3DDialog('warning', 'مواعيد المحاضرات مطلوبة', 'يرجى إضافة موعد واحد على الأقل للمقرر الدراسي (اختر اليوم والساعة واضغط أضف الموعد)!');
+                return;
+            }
+
+            const subjectData = {
                 text: name,
+                name: name,
                 value: name,
-                day: day || 'غير محدد',
-                time: timeFormatted
+                hours: hours,
+                schedules: [...tempScheduleSlots],
+                day: tempScheduleSlots[0].day,
+                time: tempScheduleSlots[0].time
             };
 
             if (!Array.isArray(takhsosDB[currentActiveTakhsos])) {
                 takhsosDB[currentActiveTakhsos] = [];
             }
 
-            takhsosDB[currentActiveTakhsos].push(newSubject);
+            let msg = '';
+            if (editingSubjectIndex !== null) {
+                // حفظ التعديل
+                takhsosDB[currentActiveTakhsos][editingSubjectIndex] = subjectData;
+                msg = `تم تعديل بيانات مقرر (${name}) بنجاح`;
+            } else {
+                // إضافة جديدة
+                takhsosDB[currentActiveTakhsos].push(subjectData);
+                msg = `تمت إضافة مقرر (${name}) بنجاح`;
+            }
 
-            document.getElementById('newSubName').value = '';
-            document.getElementById('newSubDay').value = '';
-            document.getElementById('newSubFrom').value = '';
-            document.getElementById('newSubTo').value = '';
-
-            await saveGist('takhsos_db.json', takhsosDB, 'تم إضافة المادة بنجاح');
+            cancelEditSubject();
+            await saveGist('takhsos_db.json', takhsosDB, msg);
             renderSubjectsList();
         }
 
         async function deleteSubject(index) {
-            showAdmin3DDialog('warning', 'تأكيد الحذف ⚠️', 'هل أنت متأكد من حذف هذه المادة الدراسية من قاعدة البيانات؟', true, async function () {
+            showAdmin3DDialog('warning', 'تأكيد الحذف ⚠️', 'هل أنت متأكد من حذف هذا المقرر الدراسي نهائياً؟', true, async function () {
                 takhsosDB[currentActiveTakhsos].splice(index, 1);
-                await saveGist('takhsos_db.json', takhsosDB, 'تم حذف المادة');
+                if (editingSubjectIndex === index) cancelEditSubject();
+                await saveGist('takhsos_db.json', takhsosDB, 'تم حذف المادة بنجاح');
                 renderSubjectsList();
             });
         }
@@ -1130,6 +1092,7 @@
             }
         }
 
+        /* ================= 2. إدارة الطلاب والقبول وحذف الطالب نهائياً ================= */
         function renderStudents() {
             const container = document.getElementById('studentsCardsContainer');
             container.innerHTML = '';
@@ -1166,62 +1129,77 @@
                 const card = document.createElement('div');
                 card.className = 'student-card';
                 card.innerHTML = `
-                        <div class="student-header">
-                            <div>
-                                <div class="student-title-area">
-                                    <span class="student-title">${student.name || 'بدون اسم'}</span>
-                                    <span class="status-badge ${statusClass}">${statusText}</span>
-                                </div>
-                                <div class="student-sub-info">
-                                    <span><i class="fa-solid fa-id-card"></i> ID: <b>${student.extraID || student.natID || '-'}</b></span>
-                                    <span><i class="fa-solid fa-graduation-cap"></i> التخصص: <b>${student.takhsos || '-'}</b></span>
-                                    <span><i class="fa-solid fa-clock"></i> التسجيل: ${student.timestamp || '-'}</span>
-                                </div>
+                    <div class="student-header">
+                        <div>
+                            <div class="student-title-area">
+                                <span class="student-title">${student.name || 'بدون اسم'}</span>
+                                <span class="status-badge ${statusClass}">${statusText}</span>
                             </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <button class="btn btn-success" onclick="updateAllSubjectsStatus(${originalIndex}, 'accepted')"><i class="fa-solid fa-check-double"></i> قبول الكل</button>
-                                <button class="btn btn-danger" onclick="updateAllSubjectsStatus(${originalIndex}, 'rejected')"><i class="fa-solid fa-xmark"></i> رفض الكل</button>
-                                <button class="btn btn-primary" onclick="saveStudentSubjectApprovals(${originalIndex})"><i class="fa-solid fa-floppy-disk"></i> حفظ الاعتمادات</button>
-                                <button class="btn btn-warning" onclick="allowStudentReloginAndReset(${originalIndex})" title="سماح للطالب بالدخول وإعادة التسجيل"><i class="fa-solid fa-rotate-left"></i> إتاحة التسجيل مجدداً</button>
+                            <div class="student-sub-info">
+                                <span><i class="fa-solid fa-id-card"></i> ID: <b>${student.extraID || student.natID || '-'}</b></span>
+                                <span><i class="fa-solid fa-graduation-cap"></i> التخصص: <b>${student.takhsos || '-'}</b></span>
+                                <span><i class="fa-solid fa-id-badge"></i> الرقم القومي: <b>${student.natID || '-'}</b></span>
                             </div>
                         </div>
 
-                        <div class="subjects-big-box">
-                            <h4><i class="fa-solid fa-book"></i> المواد المسجلة وحالة قبولها التفصيلية:</h4>
-                            <div>
-                                ${subsList.length > 0 ? subsList.map((s, sIdx) => {
-                    const currentSubStatus = subStatuses[s] || 'pending';
-                    return `
-                                        <div class="subject-approval-row">
-                                            <span class="sub-name">${s}</span>
-                                            <div class="subject-actions">
-                                                <label class="choice-label acc-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="accepted" ${currentSubStatus === 'accepted' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'accepted')">
-                                                    <i class="fa-solid fa-check"></i> قبول
-                                                </label>
-                                                <label class="choice-label rej-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="rejected" ${currentSubStatus === 'rejected' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'rejected')">
-                                                    <i class="fa-solid fa-xmark"></i> رفض
-                                                </label>
-                                                <label class="choice-label pen-btn">
-                                                    <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="pending" ${currentSubStatus === 'pending' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'pending')">
-                                                    <i class="fa-solid fa-clock"></i> انتظار
-                                                </label>
-                                            </div>
-                                        </div>
-                                    `;
-                }).join('') : '<span style="color:#aaa;">لم يقم بتحديد أي مادة بعد.</span>'}
-                            </div>
+                        <!-- أزرار الإجراءات + زر الحذف النهائي وزر المراسلة -->
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                            <button class="btn btn-whatsapp" onclick="openChatFromStudentCard('${student.natID}', '${student.name || ''}', '${student.extraID || ''}', '${student.email || ''}')" title="فتح المحادثة المباشرة مع الطالب">
+                                <i class="fa-brands fa-whatsapp"></i> مراسلة الطالب
+                            </button>
+                            <button class="btn btn-success" onclick="updateAllSubjectsStatus(${originalIndex}, 'accepted')"><i class="fa-solid fa-check-double"></i> قبول الكل</button>
+                            <button class="btn btn-danger" onclick="updateAllSubjectsStatus(${originalIndex}, 'rejected')"><i class="fa-solid fa-xmark"></i> رفض الكل</button>
+                            <button class="btn btn-primary" onclick="saveStudentSubjectApprovals(${originalIndex})"><i class="fa-solid fa-floppy-disk"></i> حفظ الاعتمادات</button>
+                            <button class="btn btn-warning" onclick="allowStudentReloginAndReset(${originalIndex})" title="سماح للطالب بالدخول وإعادة التسجيل"><i class="fa-solid fa-rotate-left"></i> إتاحة التسجيل مجدداً</button>
+                            <!-- 🌟 زر حذف الطالب نهائياً من قاعدة البيانات 🌟 -->
+                            <button class="btn btn-danger" onclick="removeStudentCompletely(${originalIndex})" title="حذف الطالب وسجله نهائياً من قاعدة البيانات" style="background:#b91c1c;">
+                                <i class="fa-solid fa-user-xmark"></i> حذف الطالب
+                            </button>
                         </div>
-                    `;
+                    </div>
+
+                    <div class="subjects-big-box">
+                        <h4><i class="fa-solid fa-book"></i> المواد المسجلة وحالة قبولها التفصيلية:</h4>
+                        <div>
+                            ${subsList.length > 0 ? subsList.map((s, sIdx) => {
+                                const currentSubStatus = subStatuses[s] || 'pending';
+                                return `
+                                    <div class="subject-approval-row">
+                                        <span class="sub-name">${s}</span>
+                                        <div class="subject-actions">
+                                            <label class="choice-label acc-btn">
+                                                <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="accepted" ${currentSubStatus === 'accepted' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'accepted')">
+                                                <i class="fa-solid fa-check"></i> قبول
+                                            </label>
+                                            <label class="choice-label rej-btn">
+                                                <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="rejected" ${currentSubStatus === 'rejected' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'rejected')">
+                                                <i class="fa-solid fa-xmark"></i> رفض
+                                            </label>
+                                            <label class="choice-label pen-btn">
+                                                <input type="radio" name="sub_status_${originalIndex}_${sIdx}" value="pending" ${currentSubStatus === 'pending' ? 'checked' : ''} onchange="updateLocalSubjectStatus(${originalIndex}, '${s}', 'pending')">
+                                                <i class="fa-solid fa-clock"></i> انتظار
+                                            </label>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('') : '<span style="color:#aaa;">لم يقم بتحديد أي مادة بعد.</span>'}
+                        </div>
+                    </div>
+                `;
 
                 container.appendChild(card);
+            });
+        }
 
-                if (idx < filteredStudents.length - 1) {
-                    const hr = document.createElement('hr');
-                    hr.className = 'student-divider';
-                    container.appendChild(hr);
-                }
+        // 🌟 دالة حذف الطالب نهائياً من قاعدة البيانات 🌟
+        async function removeStudentCompletely(studentIndex) {
+            const st = studentsDB[studentIndex];
+            const warningMsg = `تحذير هام جداً ⚠️\nهل أنت متأكد من حذف الطالب (${st.name || st.natID}) نهائياً من قاعدة البيانات؟\nسيتم مسح بياناته ومواده بالكامل ولا يمكن التراجع عن هذه الخطوة!`;
+
+            showAdmin3DDialog("error", "تأكيد حذف الطالب نهائياً", warningMsg, true, async function () {
+                studentsDB.splice(studentIndex, 1);
+                await saveGist('students_db.json', studentsDB, `تم حذف الطالب (${st.name || st.natID}) نهائياً من قاعدة البيانات.`);
+                renderStudents();
             });
         }
 
@@ -1234,32 +1212,22 @@
 
         async function saveStudentSubjectApprovals(studentIndex) {
             const stObj = studentsDB[studentIndex];
-
             const statuses = Object.values(stObj.subjectStatuses || {});
             if (statuses.length > 0) {
-                if (statuses.every(s => s === 'accepted')) {
-                    stObj.status = 'accepted';
-                } else if (statuses.every(s => s === 'rejected')) {
-                    stObj.status = 'rejected';
-                } else {
-                    stObj.status = 'accepted';
-                }
+                if (statuses.every(s => s === 'accepted')) stObj.status = 'accepted';
+                else if (statuses.every(s => s === 'rejected')) stObj.status = 'rejected';
+                else stObj.status = 'accepted';
             }
-
-            await saveGist('students_db.json', studentsDB, `تم حفظ وتثبيت اعتمادات المواد للطالب: ${stObj.name}`);
+            await saveGist('students_db.json', studentsDB, `تم تثبيت اعتمادات المواد للطالب: ${stObj.name}`);
             renderStudents();
         }
 
         async function updateAllSubjectsStatus(studentIndex, newStatus) {
             const stObj = studentsDB[studentIndex];
             stObj.status = newStatus;
-
             const subsList = stObj.subjects ? stObj.subjects.split(' ، ') : [];
             if (!stObj.subjectStatuses) stObj.subjectStatuses = {};
-
-            subsList.forEach(s => {
-                stObj.subjectStatuses[s] = newStatus;
-            });
+            subsList.forEach(s => stObj.subjectStatuses[s] = newStatus);
 
             let msg = newStatus === 'accepted' ? 'تم قبول الطالب وجميع مواده' : 'تم رفض جميع مواد الطالب';
             await saveGist('students_db.json', studentsDB, msg);
@@ -1268,21 +1236,40 @@
 
         async function allowStudentReloginAndReset(studentIndex) {
             const st = studentsDB[studentIndex];
-            const warningMsg = `تحذير ⚠️\nإتاحة التسجيل مجدداً للطالب (${st.name}) ستقوم بحذف جميع المقررات وحالات القبول المسجلة حالياً ليعود لصفحة الدخول للتسجيل من الصفر.\n\nهل تود الاستمرار؟`;
+            const warningMsg = `تحذير ⚠️\nإتاحة التسجيل مجدداً للطالب (${st.name}) ستقوم بمسح مواده المسجلة ليعود للتسجيل مجدداً من الصفر.\nهل تود الاستمرار؟`;
 
-            showAdmin3DDialog("warning", "إتاحة التسجيل مجدداً للطلاب", warningMsg, true, async function () {
+            showAdmin3DDialog("warning", "إتاحة التسجيل مجدداً", warningMsg, true, async function () {
                 st.subjects = "";
                 st.subjectStatuses = {};
                 st.status = "pending";
                 st.allowRelogin = true;
                 st.newlogin = true;
 
-                await saveGist('students_db.json', studentsDB, `تم إفراغ بيانات وحذف مواد الطالب (${st.name}) وإتاحة الدخول مجدداً له بنجاح.`);
+                await saveGist('students_db.json', studentsDB, `تم إتاحة الدخول وإعادة التسجيل للطالب (${st.name})`);
                 renderStudents();
             });
         }
 
-        /* ================= إدارة قسم الدردشة للأدمن ================= */
+        function openChatFromStudentCard(natID, name, extraID, email) {
+            if (!chatDataDB[natID]) {
+                chatDataDB[natID] = {
+                    studentName: name || 'طالب',
+                    email: email || '',
+                    extraID: extraID || natID,
+                    natID: natID,
+                    messages: []
+                };
+            }
+
+            const chatMenuItem = document.querySelectorAll('.menu-item')[2];
+            switchTab('chatTab', chatMenuItem);
+
+            selectedChatKey = natID;
+            renderChatStudentsList();
+            openStudentChat(natID);
+        }
+
+        /* ================= 3. إدارة قسم الدردشة وحساب الرسائل غير المردود عليها ================= */
         async function loadChatData() {
             if (!getAdminKey()) return;
             try {
@@ -1310,6 +1297,7 @@
                 const json = await res.json();
                 if (res.ok && json.success) {
                     chatDataDB = json.chatData || {};
+                    renderChatStudentsList();
                     if (selectedChatKey) {
                         renderAdminChatMessages();
                     }
@@ -1317,29 +1305,99 @@
             } catch (e) { }
         }
 
-        function renderChatStudentsList(filteredDB = chatDataDB) {
+        // 🌟 حساب عدد الرسائل التي أرسلها الطالب ولم يرد عليها الأدمن بعد 🌟
+        function getUnrepliedCount(messages = []) {
+            if (!messages || messages.length === 0) return 0;
+            let unreplied = 0;
+            // فحص الرسائل من النهاية إلى البداية
+            for (let i = messages.length - 1; i >= 0; i--) {
+                if (messages[i].sender === 'student') {
+                    unreplied++;
+                } else if (messages[i].sender === 'admin') {
+                    // بمجرد الوصول لآخر رسالة أرسلها الأدمن، يتوقف العد
+                    break;
+                }
+            }
+            return unreplied;
+        }
+
+        function renderChatStudentsList(filteredDB = null) {
             const listEl = document.getElementById('chatStudentsList');
             listEl.innerHTML = '';
 
-            const keys = Object.keys(filteredDB);
-            if (keys.length === 0) {
-                listEl.innerHTML = '<p style="padding:20px; text-align:center; color:#888;">لا توجد محادثات مطابقة لخيارات البحث.</p>';
+            // مزامنة جميع الطلاب المسجلين بالنظام
+            studentsDB.forEach(student => {
+                const key = student.natID || student.extraID;
+                if (key && !chatDataDB[key]) {
+                    chatDataDB[key] = {
+                        studentName: student.name || 'طالب مسجل',
+                        email: student.email || '',
+                        extraID: student.extraID || key,
+                        natID: student.natID || key,
+                        messages: []
+                    };
+                }
+            });
+
+            const sourceDB = filteredDB || chatDataDB;
+
+            let chatItems = Object.keys(sourceDB).map(key => {
+                const item = sourceDB[key];
+                const messages = item.messages || [];
+                const lastMsgObj = messages.length > 0 ? messages[messages.length - 1] : null;
+                
+                // حساب الرسائل غير المردود عليها فقط
+                const unrepliedCount = getUnrepliedCount(messages);
+
+                return {
+                    key: key,
+                    data: item,
+                    unrepliedCount: unrepliedCount,
+                    lastText: lastMsgObj ? lastMsgObj.text : 'لم تبدأ المحادثة بعد',
+                    lastTime: lastMsgObj ? (lastMsgObj.time || '') : '',
+                    hasMessages: messages.length > 0
+                };
+            });
+
+            // فرز المحادثات: التي تحتوي على رسائل غير مردود عليها أولاً، ثم التي تحتوي على رسائل
+            chatItems.sort((a, b) => {
+                if (b.unrepliedCount !== a.unrepliedCount) {
+                    return b.unrepliedCount - a.unrepliedCount;
+                }
+                if (a.hasMessages && !b.hasMessages) return -1;
+                if (!a.hasMessages && b.hasMessages) return 1;
+                return 0;
+            });
+
+            if (chatItems.length === 0) {
+                listEl.innerHTML = '<p style="padding:20px; text-align:center; color:#888;">لا توجد محادثات أو طلاب مطابقين للبحث.</p>';
                 return;
             }
 
-            keys.forEach(key => {
-                const item = filteredDB[key];
-                const lastMsg = item.messages && item.messages.length > 0 ? item.messages[item.messages.length - 1].text : 'لا توجد رسائل';
-
+            chatItems.forEach(chat => {
+                const item = chat.data;
                 const div = document.createElement('div');
-                div.className = `chat-student-item ${selectedChatKey === key ? 'active' : ''}`;
-                div.onclick = () => openStudentChat(key);
+                div.className = `chat-student-item ${selectedChatKey === chat.key ? 'active' : ''}`;
+                div.onclick = () => openStudentChat(chat.key);
+
+                // النقطة الحمراء تظهر فقط للرسائل التي لم يتم الرد عليها
+                const badgeHTML = chat.unrepliedCount > 0 
+                    ? `<span class="chat-red-badge" title="${chat.unrepliedCount} رسائل جديدة لم يتم الرد عليها">${chat.unrepliedCount}</span>` 
+                    : '';
+
                 div.innerHTML = `
+                    <div class="chat-st-info">
                         <div class="st-name">${item.studentName || 'طالب غير معرف'}</div>
-                        <div class="st-id" style="margin-top:2px;">ID: <b>${item.extraID || key}</b></div>
-                        <div class="st-id" style="font-size:10px;">الهوية: ${item.natID || '-'}</div>
-                        <div style="font-size:12px; color:#666; margin-top:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg}</div>
-                    `;
+                        <div class="st-id">ID: <b>${item.extraID || chat.key}</b> | القومي: ${item.natID || '-'}</div>
+                        <div style="font-size:12px; color:#666; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            ${chat.lastText}
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                        <span style="font-size:10px; color:#94a3b8;">${chat.lastTime}</span>
+                        ${badgeHTML}
+                    </div>
+                `;
                 listEl.appendChild(div);
             });
         }
@@ -1347,7 +1405,7 @@
         function filterChatsList() {
             const term = document.getElementById('chatSearchInput').value.trim().toLowerCase();
             if (!term) {
-                renderChatStudentsList(chatDataDB);
+                renderChatStudentsList();
                 return;
             }
             const filtered = {};
@@ -1367,15 +1425,15 @@
 
         function openStudentChat(key) {
             selectedChatKey = key;
-            renderChatStudentsList();
             const item = chatDataDB[key];
             if (!item) return;
 
             document.getElementById('chatAdminHeader').innerHTML = `
-                    <span><i class="fa-solid fa-user-graduate"></i> محادثة: ${item.studentName || 'طالب'} (ID: ${item.extraID || key})</span>
-                    <span style="font-size: 13px; font-weight: normal; opacity: 0.9;">${item.email || ''}</span>
-                `;
+                <span><i class="fa-solid fa-user-graduate"></i> محادثة: ${item.studentName || 'طالب'} (ID: ${item.extraID || key})</span>
+                <span style="font-size: 13px; font-weight: normal; opacity: 0.9;">الرقم القومي: ${item.natID || '-'} | ${item.email || ''}</span>
+            `;
 
+            renderChatStudentsList();
             renderAdminChatMessages();
         }
 
@@ -1383,13 +1441,13 @@
             if (!selectedChatKey || !chatDataDB[selectedChatKey]) return;
 
             const bodyEl = document.getElementById('chatAdminBody');
-            const isAtBottom = bodyEl.scrollHeight - bodyEl.clientHeight <= bodyEl.scrollTop + 50;
+            const isAtBottom = bodyEl.scrollHeight - bodyEl.clientHeight <= bodyEl.scrollTop + 60;
 
             bodyEl.innerHTML = '';
             const messages = chatDataDB[selectedChatKey].messages || [];
 
             if (messages.length === 0) {
-                bodyEl.innerHTML = '<p style="text-align:center; color:#777; margin-top:50px;">لا توجد رسائل في هذه المحادثة حتى الآن.</p>';
+                bodyEl.innerHTML = '<p style="text-align:center; color:#777; margin-top:50px;">لم يرسل الطالب رسائل بعد. يمكنك البدء بإرسال رسالة له الآن.</p>';
                 return;
             }
 
@@ -1398,9 +1456,9 @@
                 const div = document.createElement('div');
                 div.className = `msg-bubble-admin ${isFromStudent ? 'from-student' : 'from-admin'}`;
                 div.innerHTML = `
-                        <div>${msg.text}</div>
-                        <span class="msg-time-tag">${msg.time || ''}</span>
-                    `;
+                    <div>${msg.text}</div>
+                    <span class="msg-time-tag">${msg.time || ''}</span>
+                `;
                 bodyEl.appendChild(div);
             });
 
@@ -1437,6 +1495,7 @@
 
             inputEl.value = '';
             renderAdminChatMessages();
+            renderChatStudentsList(); // ستختفي النقطة الحمراء فوراً لأن الأدمن قام بالرد
 
             try {
                 await fetch(WORKER_API_URL, {
